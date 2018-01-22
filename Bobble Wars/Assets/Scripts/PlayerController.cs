@@ -5,9 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float moveSpeed = 50.0f;
-	void Start() {
-
-	}
 
 	// Update is called once per frame
 	void Update () {
