@@ -187,7 +187,9 @@
 -define:UNITY_EDITOR_OSX
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
+'Assets/Scripts/CameraMovement.cs'
 'Assets/Scripts/CameraShake.cs'
+'Assets/Scripts/Gun.cs'
 'Assets/Scripts/PlayerController.cs'
 'Assets/Scripts/Rotator.cs'
 -r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
