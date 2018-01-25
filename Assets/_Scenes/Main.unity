@@ -337,6 +337,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.949
       objectReference: {fileID: 0}
+    - target: {fileID: 100078, guid: 7f78b096b427d419f9918e4ae4fc4aec, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7f78b096b427d419f9918e4ae4fc4aec, type: 3}
   m_IsPrefabParent: 0
@@ -612,6 +616,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 50
   head: {fileID: 1638204892}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!143 &841713906
 CharacterController:
   m_ObjectHideFlags: 0
