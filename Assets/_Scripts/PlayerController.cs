@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
 	public Rigidbody head;
 	public LayerMask layerMask;
 
-	private Vector3 currentLookTarget = Vector3.zero;
+	private Vector3 currentLookTarget;
 	private CharacterController characterController;
 
 	void Start () {
