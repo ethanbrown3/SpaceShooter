@@ -8,12 +8,13 @@ public class GameManager : MonoBehaviour {
     public GameObject[] spawnPoints;
     public GameObject alien;
     public int maxAliensOnScreen;
-    public int totalAliens;
+    public int maxAliens;
     public float minSpawnTime;
     public float maxSpawnTime;
     public int aliensPerSpawn;
 
     private int aliensOnScreen = 0;
+    private int totalAliensSpawned = 0;
     private float generatedSpawnTime = 0;
     private float currentSpawnTime = 0;
 
@@ -25,20 +26,21 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         aliensOnScreen = GameObject.FindGameObjectsWithTag("Alien").Length;
-        Debug.Log("AliensOnScreen: " + aliensOnScreen);
+
         currentSpawnTime += Time.deltaTime;
         if (currentSpawnTime > generatedSpawnTime) {
             currentSpawnTime = 0;
             generatedSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
-            if ((aliensPerSpawn > 0) && (aliensOnScreen < totalAliens)) {
+            if ((aliensPerSpawn > 0) && (totalAliensSpawned < maxAliens)) {
                 List<int> previousSpawnLocations = new List<int>();
                 if (aliensPerSpawn > spawnPoints.Length) {
                     aliensPerSpawn = spawnPoints.Length - 1;
                 }
-                aliensPerSpawn = (aliensPerSpawn > totalAliens) ? aliensPerSpawn - totalAliens : aliensPerSpawn;
+                aliensPerSpawn = (aliensPerSpawn > maxAliens) ? aliensPerSpawn - maxAliens : aliensPerSpawn;
                 // spawn the aliens
                 for (int i = 0; i < aliensPerSpawn; i++) {
                     if (aliensOnScreen < maxAliensOnScreen) {
+                        totalAliensSpawned++;
                         int spawnPoint = -1;
                         while (spawnPoint == -1) {
                             int randomNumber = Random.Range(0, spawnPoints.Length - 1);
