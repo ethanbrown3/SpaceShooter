@@ -12,19 +12,45 @@ public class GameManager : MonoBehaviour {
     public float minSpawnTime;
     public float maxSpawnTime;
     public int aliensPerSpawn;
+    public GameObject upgradePrefab;
+    public Gun gun;
+    public float upgradeMaxTimeSpawn = 7.5f;
 
     private int aliensOnScreen = 0;
     private int totalAliensSpawned = 0;
     private float generatedSpawnTime = 0;
     private float currentSpawnTime = 0;
+    private bool spawnedUpgrade = false;
+    private float actualUpgradeTime = 0;
+    private float currentUpgradeTime = 0;
 
 	// Use this for initialization
 	void Start () {
-		
+        actualUpgradeTime = Random.Range(upgradeMaxTimeSpawn - 3.0f, upgradeMaxTimeSpawn);
+        actualUpgradeTime = Mathf.Abs(actualUpgradeTime);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        currentUpgradeTime += Time.deltaTime;
+
+        if (currentUpgradeTime > actualUpgradeTime) {
+            if (!spawnedUpgrade) { // After random time passes, check if upgrade has spawned
+                // The upgrade will appear in one of the alien spawn points.
+                int randomNumber = Random.Range(0, spawnPoints.Length - 1);
+                GameObject spawnLocation = spawnPoints[randomNumber];
+                // This section handles spawning and associating the gun with it.
+                GameObject upgrade = Instantiate(upgradePrefab) as GameObject;
+                Upgrade upgradeScript = upgrade.GetComponent<Upgrade>();
+                upgradeScript.gun = gun;
+                upgrade.transform.position = spawnLocation.transform.position;
+                // set spawned flag
+                spawnedUpgrade = true;
+
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.powerUpAppear);
+            }
+        }
+
         aliensOnScreen = GameObject.FindGameObjectsWithTag("Alien").Length;
 
         currentSpawnTime += Time.deltaTime;

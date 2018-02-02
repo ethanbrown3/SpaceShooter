@@ -327,7 +327,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7f78b096b427d419f9918e4ae4fc4aec, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7f78b096b427d419f9918e4ae4fc4aec, type: 3}
       propertyPath: m_LocalScale.x
@@ -2391,6 +2391,9 @@ MonoBehaviour:
   minSpawnTime: 0
   maxSpawnTime: 3
   aliensPerSpawn: 1
+  upgradePrefab: {fileID: 105092, guid: 941d6224549424c91b1cf112b44ec0cb, type: 2}
+  gun: {fileID: 1963469601}
+  upgradeMaxTimeSpawn: 0
 --- !u!4 &1757321177
 Transform:
   m_ObjectHideFlags: 0
@@ -2572,7 +2575,7 @@ Transform:
   m_Children:
   - {fileID: 934960599}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1963469599
 GameObject:
@@ -2619,6 +2622,8 @@ MonoBehaviour:
     type: 2}
   launchPosition: {fileID: 1963469600}
   fireRate: 0.1
+  isUpgraded: 0
+  upgradeDuration: 10
 --- !u!82 &1963469602
 AudioSource:
   m_ObjectHideFlags: 0
