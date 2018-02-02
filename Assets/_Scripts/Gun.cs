@@ -9,7 +9,12 @@ public class Gun : MonoBehaviour {
 	public float fireRate = 0.1f;
 
 	private float nextFire = 0.0f; // make sure you can fire again until time has passed this value
-	
+    private AudioSource audioSource;
+
+    void Start () {
+        audioSource = GetComponent<AudioSource>();
+    }
+
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetButton("Fire1") && Time.time > nextFire) {
@@ -22,5 +27,6 @@ public class Gun : MonoBehaviour {
 		GameObject bullet = Instantiate(bulletPrefab, launchPosition.position, launchPosition.rotation);
 		bullet.transform.position = launchPosition.position;
 		bullet.GetComponent<Rigidbody>().velocity = transform.parent.forward * 100;
+        audioSource.PlayOneShot(SoundManager.Instance.gunFire);
 	}
 }
