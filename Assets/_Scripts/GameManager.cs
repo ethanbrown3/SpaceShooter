@@ -14,28 +14,29 @@ public class GameManager : MonoBehaviour {
     public int aliensPerSpawn;
     public GameObject upgradePrefab;
     public Gun gun;
-    public float upgradeMaxTimeSpawn = 7.5f;
+    public int upgradeMaxTimeSpawn = 10;
+    public int maxSpawnedUpgrades = 1;
 
     private int aliensOnScreen = 0;
     private int totalAliensSpawned = 0;
     private float generatedSpawnTime = 0;
     private float currentSpawnTime = 0;
-    private bool spawnedUpgrade = false;
+    private bool isPickupSpawned = false;
     private float actualUpgradeTime = 0;
-    private float currentUpgradeTime = 0;
+    private float currentTime = 0;
 
 	// Use this for initialization
 	void Start () {
-        actualUpgradeTime = Random.Range(upgradeMaxTimeSpawn - 3.0f, upgradeMaxTimeSpawn);
-        actualUpgradeTime = Mathf.Abs(actualUpgradeTime);
-	}
+        ResetPickupActualSpawnTime();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        currentUpgradeTime += Time.deltaTime;
+        currentTime += Time.deltaTime;
+        isPickupSpawned = GameObject.FindGameObjectsWithTag("Pickup").Length >= maxSpawnedUpgrades;
 
-        if (currentUpgradeTime > actualUpgradeTime) {
-            if (!spawnedUpgrade) { // After random time passes, check if upgrade has spawned
+        if (!isPickupSpawned) {
+            if (currentTime > actualUpgradeTime) { // After random time passes, check if upgrade has spawned
                 // The upgrade will appear in one of the alien spawn points.
                 int randomNumber = Random.Range(0, spawnPoints.Length - 1);
                 GameObject spawnLocation = spawnPoints[randomNumber];
@@ -45,10 +46,12 @@ public class GameManager : MonoBehaviour {
                 upgradeScript.gun = gun;
                 upgrade.transform.position = spawnLocation.transform.position;
                 // set spawned flag
-                spawnedUpgrade = true;
 
                 SoundManager.Instance.PlayOneShot(SoundManager.Instance.powerUpAppear);
-            }
+                ResetPickupActualSpawnTime(); 
+            } 
+        } else { // keep resetting time to respawn until picked up.
+            actualUpgradeTime += Time.deltaTime;
         }
 
         aliensOnScreen = GameObject.FindGameObjectsWithTag("Alien").Length;
@@ -87,9 +90,13 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
-        }
-
-        
-       
+        }         
 	}
+
+    // Create a random pickup spawn time
+    void ResetPickupActualSpawnTime() {
+        actualUpgradeTime = Random.Range(upgradeMaxTimeSpawn - 3.0F, upgradeMaxTimeSpawn);
+        actualUpgradeTime = Mathf.Abs(actualUpgradeTime);
+        actualUpgradeTime += currentTime;
+    }
 }
