@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour {
                 if (aliensPerSpawn > spawnPoints.Length) {
                     aliensPerSpawn = spawnPoints.Length - 1;
                 }
-                aliensPerSpawn = (aliensPerSpawn > totalAliens) ? aliensPerSpawn - totalAliens : aliensPerSpawn;
+                aliensPerSpawn = (aliensPerSpawn > (totalAliens - totalAliensSpawned)) ? totalAliens - totalAliensSpawned : aliensPerSpawn;
                 // spawn the aliens
                 for (int i = 0; i < aliensPerSpawn; i++) {
                     if (aliensOnScreen < maxAliensOnScreen) {
@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour {
     public void AlienDestroyed() {
         aliensOnScreen -= 1;
         aliensKilled++;
+        Debug.Log(aliensKilled);
         if (aliensKilled >= totalAliens) {
             Invoke("endGame", 2.0f);
         }
