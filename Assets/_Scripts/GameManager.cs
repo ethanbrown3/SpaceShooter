@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (player == null)
+            return;
+
         currentTime += Time.deltaTime;
         isPickupSpawned = GameObject.FindGameObjectsWithTag("Pickup").Length >= maxSpawnedUpgrades;
 

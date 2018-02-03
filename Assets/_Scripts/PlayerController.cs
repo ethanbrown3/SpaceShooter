@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour {
     public Animator bodyAnimator;
     public float[] hitForce;
     public float timeBetweenHits = 2.5f;
+    public Rigidbody marineBody;
 
+    private bool isDead = false;
     private bool isHit = false;
     private float timeSinceHit = 0;
     private int hitNumber = -1;
@@ -70,12 +72,27 @@ public class PlayerController : MonoBehaviour {
                     cameraShake.intensity = hitForce[hitNumber];
                     cameraShake.Shake();
                 } else {
-
+                    Die();
                 }
                 isHit = true;
                 SoundManager.Instance.PlayOneShot(SoundManager.Instance.hurt);
             }
             alien.Die();
         }
+    }
+
+    public void Die() {
+        bodyAnimator.SetBool("isPlayerMoving", false);
+        marineBody.transform.parent = null;
+        marineBody.isKinematic = false;
+        marineBody.useGravity = true;
+        marineBody.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        marineBody.gameObject.GetComponent<Gun>().enabled = false;
+        Destroy(head.gameObject.GetComponent<HingeJoint>());
+        head.transform.parent = null;
+        head.useGravity = true;
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.marineDeath);
+        Destroy(gameObject);
+
     }
 }

@@ -29,6 +29,7 @@ public class Gun : MonoBehaviour {
             isUpgraded = false;
         }
 	}
+
     public void UpgradeGun() {
         isUpgraded = true;
         timeUpgraded = 0;
