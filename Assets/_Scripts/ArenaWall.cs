@@ -16,11 +16,13 @@ public class ArenaWall : MonoBehaviour {
 		
 	}
 
-    private void OnTriggerEnter () {
-        arenaAnimator.SetBool("IsLowered", true);
+    private void OnTriggerEnter (Collider other) {
+        if (other.GetComponent<PlayerController>())
+            arenaAnimator.SetBool("IsLowered", true);
     }
 
-    private void OnTriggerExit () {
-        arenaAnimator.SetBool("IsLowered", false);
+    private void OnTriggerExit (Collider other) {
+        if (other.GetComponent<PlayerController>())
+            arenaAnimator.SetBool("IsLowered", false);
     }
 }
