@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 95130885976750212}
   - component: {fileID: 54112767406793338}
   - component: {fileID: 135111643518556212}
+  - component: {fileID: 114326934887067682}
   m_Layer: 0
   m_Name: BobbleEnemy-Head
   m_TagString: Untagged
@@ -1240,6 +1241,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114326934887067682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1093173929294366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea3abb8c1184884dac47ee4205ffaaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destructTime: 3
 --- !u!114 &114760832065529064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1258,7 +1271,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  head: {fileID: 0}
+  head: {fileID: 54112767406793338}
   isAlive: 1
 --- !u!135 &135111643518556212
 SphereCollider:
