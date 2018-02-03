@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     public int upgradeMaxTimeSpawn = 10;
     public int maxSpawnedUpgrades = 1;
     public GameObject deathFloor;
+    public Animator arenaAnimator;
 
     private int aliensKilled = 0;
     private int aliensOnScreen = 0;
@@ -109,6 +110,13 @@ public class GameManager : MonoBehaviour {
     public void AlienDestroyed() {
         aliensOnScreen -= 1;
         aliensKilled++;
-        Debug.Log("aliens on screen: " + aliensOnScreen + "\nAliens left: " + (totalAliens - aliensKilled));
+        if (aliensKilled >= totalAliens) {
+            Invoke("endGame", 2.0f);
+        }
+    }
+
+    private void endGame() {
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.elevatorArrived);
+        arenaAnimator.SetTrigger("PlayerWon");
     }
 }
