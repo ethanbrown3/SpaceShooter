@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     public GameObject[] spawnPoints;
     public GameObject alien;
     public int maxAliensOnScreen;
-    public int maxAliens;
+    public int totalAliens;
     public float minSpawnTime;
     public float maxSpawnTime;
     public int aliensPerSpawn;
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     public int upgradeMaxTimeSpawn = 10;
     public int maxSpawnedUpgrades = 1;
 
+    private int aliensKilled = 0;
     private int aliensOnScreen = 0;
     private int totalAliensSpawned = 0;
     private float generatedSpawnTime = 0;
@@ -54,22 +55,19 @@ public class GameManager : MonoBehaviour {
             actualUpgradeTime += Time.deltaTime;
         }
 
-        aliensOnScreen = GameObject.FindGameObjectsWithTag("Alien").Length;
-
         currentSpawnTime += Time.deltaTime;
         if (currentSpawnTime > generatedSpawnTime) {
             currentSpawnTime = 0;
             generatedSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
-            if ((aliensPerSpawn > 0) && (totalAliensSpawned < maxAliens)) {
+            if ((aliensPerSpawn > 0) && (totalAliensSpawned < totalAliens)) {
                 List<int> previousSpawnLocations = new List<int>();
                 if (aliensPerSpawn > spawnPoints.Length) {
                     aliensPerSpawn = spawnPoints.Length - 1;
                 }
-                aliensPerSpawn = (aliensPerSpawn > maxAliens) ? aliensPerSpawn - maxAliens : aliensPerSpawn;
+                aliensPerSpawn = (aliensPerSpawn > totalAliens) ? aliensPerSpawn - totalAliens : aliensPerSpawn;
                 // spawn the aliens
                 for (int i = 0; i < aliensPerSpawn; i++) {
                     if (aliensOnScreen < maxAliensOnScreen) {
-                        totalAliensSpawned++;
                         int spawnPoint = -1;
                         while (spawnPoint == -1) {
                             int randomNumber = Random.Range(0, spawnPoints.Length - 1);
@@ -80,12 +78,15 @@ public class GameManager : MonoBehaviour {
                         }
                         GameObject spawnLocation = spawnPoints[spawnPoint];
                         GameObject newAlien = Instantiate(alien) as GameObject;
+                        totalAliensSpawned++;
+                        aliensOnScreen++;
                         newAlien.transform.position = spawnLocation.transform.position;
 
                         Alien alienScript = newAlien.GetComponent<Alien>();
                         alienScript.target = player.transform;
                         Vector3 targetRotation = new Vector3(player.transform.position.x, newAlien.transform.position.y, player.transform.position.z);
                         newAlien.transform.LookAt(targetRotation);
+                        alienScript.OnDestroy.AddListener(AlienDestroyed);
        
                     }
                 }
@@ -98,5 +99,11 @@ public class GameManager : MonoBehaviour {
         actualUpgradeTime = Random.Range(upgradeMaxTimeSpawn - 3.0F, upgradeMaxTimeSpawn);
         actualUpgradeTime = Mathf.Abs(actualUpgradeTime);
         actualUpgradeTime += currentTime;
+    }
+
+    public void AlienDestroyed() {
+        aliensOnScreen -= 1;
+        aliensKilled++;
+        Debug.Log("aliens on screen: " + aliensOnScreen + "\nAliens left: " + (totalAliens - aliensKilled));
     }
 }
