@@ -12,6 +12,7 @@ public class Alien : MonoBehaviour {
     public Rigidbody head;
     public bool isAlive = true;
 
+    private DeathParticles deathParticles;
     private float navigationTime = 0;
     private NavMeshAgent agent;
 
@@ -29,8 +30,17 @@ public class Alien : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider other) {
-        if (isAlive)
-            Die();
+        if (other.GetComponent<Bullet>()) {
+            if (isAlive)
+                Die();
+        }
+    }
+
+    public DeathParticles GetDeathParticles() {
+        if (deathParticles == null) {
+            deathParticles = GetComponentInChildren<DeathParticles>();
+        }
+        return deathParticles;
     }
 
     public void Die() {
@@ -41,12 +51,16 @@ public class Alien : MonoBehaviour {
         head.GetComponent<SphereCollider>().enabled = true;
         head.gameObject.transform.parent = null;
         head.velocity = new Vector3(0, 26.0f, 3.0f);
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienDeath);
 
         OnDestroy.Invoke();
         OnDestroy.RemoveAllListeners();
         head.GetComponent<SelfDestruct>().Initiate();
+        if (deathParticles) {
+            deathParticles.transform.parent = null;
+            deathParticles.Activate();
+        }
         Destroy(gameObject);
-        SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienDeath);
 
     }
 }

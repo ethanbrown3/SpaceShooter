@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
     public Gun gun;
     public int upgradeMaxTimeSpawn = 10;
     public int maxSpawnedUpgrades = 1;
+    public GameObject deathFloor;
 
     private int aliensKilled = 0;
     private int aliensOnScreen = 0;
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour {
                         Vector3 targetRotation = new Vector3(player.transform.position.x, newAlien.transform.position.y, player.transform.position.z);
                         newAlien.transform.LookAt(targetRotation);
                         alienScript.OnDestroy.AddListener(AlienDestroyed);
+                        alienScript.GetDeathParticles().SetDeathFloor(deathFloor);
        
                     }
                 }
