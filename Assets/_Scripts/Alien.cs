@@ -27,12 +27,13 @@ public class Alien : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         Die();
-        SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienDeath);
     }
 
-    void Die() {
+    public void Die() {
         OnDestroy.Invoke();
         OnDestroy.RemoveAllListeners();
         Destroy(gameObject);
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienDeath);
+
     }
 }

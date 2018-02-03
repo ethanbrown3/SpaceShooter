@@ -1336,6 +1336,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   bodyAnimator: {fileID: 1424735190}
+  hitForce:
+  - 0.1
+  - 0.2
+  - 0.3
+  timeBetweenHits: 2.5
 --- !u!143 &841713906
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1346,8 +1351,8 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 10.15
-  m_Radius: 2.5
+  m_Height: 11.08
+  m_Radius: 5.17
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.08
@@ -1502,6 +1507,7 @@ GameObject:
   - component: {fileID: 934960598}
   - component: {fileID: 934960597}
   - component: {fileID: 934960596}
+  - component: {fileID: 934960600}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1572,6 +1578,19 @@ Transform:
   m_Father: {fileID: 1961654342}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+--- !u!114 &934960600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 934960595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9efe26825c6d3b24aac340ea97076054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDecay: 0.02
+  intensity: 0.3
 --- !u!1001 &1015332301
 Prefab:
   m_ObjectHideFlags: 0

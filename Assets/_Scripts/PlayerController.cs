@@ -8,7 +8,12 @@ public class PlayerController : MonoBehaviour {
 	public Rigidbody head;
 	public LayerMask layerMask;
     public Animator bodyAnimator;
+    public float[] hitForce;
+    public float timeBetweenHits = 2.5f;
 
+    private bool isHit = false;
+    private float timeSinceHit = 0;
+    private int hitNumber = -1;
 	private Vector3 currentLookTarget;
 	private CharacterController characterController;
 
@@ -19,6 +24,14 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         characterController.SimpleMove(moveDirection * moveSpeed);
+
+        if (isHit) {
+            timeSinceHit += Time.deltaTime;
+            if (timeSinceHit > timeBetweenHits) {
+                isHit = false;
+                timeSinceHit = 0;
+            }
+        }
     }
 
 	// Gaurenteed to be called at consistent intervals regardless of framerate
@@ -45,4 +58,24 @@ public class PlayerController : MonoBehaviour {
 			transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10.0f);
 		}
 	}
+
+    void OnTriggerEnter(Collider other) {
+        Debug.Log("Entered Player Collider");
+        Alien alien = other.gameObject.GetComponent<Alien>(); 
+        if (alien != null) { // Did an alien collide with the player
+            if (!isHit) {
+                hitNumber += 1; // add a hit to the player
+                CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+                if (hitNumber < hitForce.Length) { // hero is still alive so shake the camera
+                    cameraShake.intensity = hitForce[hitNumber];
+                    cameraShake.Shake();
+                } else {
+
+                }
+                isHit = true;
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.hurt);
+            }
+            alien.Die();
+        }
+    }
 }
